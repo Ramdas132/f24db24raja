@@ -2,7 +2,7 @@
 
 # f24wb24raja
 
-[Link to remote Render server](https://s24wb24raja.onrender.com)
+[Link to remote Render server](https://f24db24raja.onrender.com/)
 
 ### Department
 
