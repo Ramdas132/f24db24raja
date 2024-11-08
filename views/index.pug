@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1= title
+  p Happy Diwali to Sri Kanth Bro and Abhi Nandhu Bro
+  button(type="button", class="btn btn-secondary" onclick="boost()") Sample Button
+  |
+  div(id='boost') add in extra
+
+  script.
+    let value = 0;
+    let amt = 3;
+
+    function boost() {
+      amt += 1;
+      value += amt;
+      document.getElementById("boost").innerText = `Boosted ${value} by ${amt}`;
+    }
+
+    a(href='/department') View Departments
