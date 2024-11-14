@@ -1,50 +1,63 @@
 const department = require('../models/department');
+const Department = require('../models/department');
 
 
- 
-// List of all Departments
-exports.department_list = async function(req, res) {
+// List all Departments
+exports.department_list = async function (req, res) {
     try {
-        const departments = await department.find(); 
-        res.send(departments); // Sends the list as JSON
+        const department = await Department.find();
+        res.send(department);
     } catch (err) {
-        res.status(500);
-        res.send({ "error": err.message }); // Sends an error response if any issues occur
+        res.status(500).send({ "error": err.message });
     }
 };
 
+
+exports.department_view_all_Page = async function(req, res) {
+    try{
+    const thedepartment = await Department.find();
+    res.render('department', { title: 'Department Search Results', results: thedepartment });
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
+    };
+    
+    
+
+
+
+
 // For a specific Department
-exports.department_detail = function(req, res) {
-    Department.findById(req.params.id, function(err, department) {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.json(department);
-    });
+exports.department_detail = function (req, res) {
+    res.send('NOT IMPLEMENTED: Department detail: ' + req.params.id);
 };
 
 // Handle Department create on POST
-exports.department_create_post = function(req, res) {
-    const newDepartment = new Department({
-        department_name: req.body.department_name,
-        location: req.body.location,
-        budget: req.body.budget
-    });
-
-    newDepartment.save(function(err, department) {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.status(201).json(department);
-    });
-};
+exports.department_create_post = async function(req, res) {
+    console.log(req.body)
+    let document = new department();
+    document.departmentName = req.body.departmentName;
+    document.size = req.body.size;
+    document.budget = req.body.budget;
+    try{
+    let result = await document.save();
+    res.send(result);
+    }
+    catch(err){
+    res.status(500);
+    res.send(`{"error": ${err}}`);
+    }
+    };
+    
 
 // Handle Department delete on DELETE
-exports.department_delete = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
+exports.department_delete = function (req, res) {
+    res.send('NOT IMPLEMENTED: Department delete DELETE ' + req.params.id);
 };
 
 // Handle Department update on PUT
-exports.department_update_put = function(req, res) {
-    res.send('NOT IMPLEMENTED: Costume delete DELETE ' + req.params.id);
+exports.department_update_put = function (req, res) {
+    res.send('NOT IMPLEMENTED: Department update PUT ' + req.params.id);
 };

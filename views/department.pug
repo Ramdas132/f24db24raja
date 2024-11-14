@@ -2,17 +2,10 @@ extends layout
 
 block content
   h1= title
-  - let results = [{ department_name: 'Research', employee_count: 25, annual_budget: 500000 },{ department_name: 'Human Resources', employee_count: 10, annual_budget: 150000 },{ department_name: 'IT Support', employee_count: 15, annual_budget: 200000 }];
-  .container-fluid
-    .row
-      each item, index in results
-        div(class="col-sm-2", onclick=`buy(${index})`)
-            h4 #{item.department_name}
-            p Employee Count: #{item.employee_count}
-            p Annual Budget: $#{item.annual_budget}
+  ul
+    each dept in results
+      li Department Name: #{dept.departmentName}
+      li Size: #{dept.size}
+      li Budget: #{dept.budget}
 
-            script.
-              function buy(itemNum){
-                alert(`you Purchased item ${itemNum + 1}`);
-              }
               

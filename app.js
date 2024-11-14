@@ -35,12 +35,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/department',departmentRouter);
-app.use('/grid',gridRouter);
-app.use('/pick',randomRouter);
+app.use('/department', departmentRouter);
+app.use('/grid', gridRouter);
+app.use('/pick', randomRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/models/department',department)
+app.use('/models/department', department)
 app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
@@ -59,28 +59,31 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-async function recreateDB(){
- // Delete everything
- await department.deleteMany();
- let instance1 = new department({departmentName:"CSE", size:'Large',budget:10000});
- let instance2 = new department({departmentName:"ECE", size:'Medium',budget:50000});
- let instance3 = new department({departmentName:"MECH", size:'Small',budget:5000});
- instance1.save().then(doc=>{
- console.log("First department saved")}
- ).catch(err=>{
- console.error(err)
- });
- instance2.save().then(doc=>{
-  console.log("Second department saved")}
-  ).catch(err=>{
-  console.error(err)
-  });
-  instance3.save().then(doc=>{
-    console.log("Third department saved")}
-    ).catch(err=>{
-    console.error(err)
-    });
+
+async function recreateDB() {
+  try {
+    // Delete all departments
+    await department.deleteMany();
+    console.log("Deleted existing departments");
+
+    // Create new department instances
+    let instance1 = new department({ departmentName: "CSE", size: 'Large', budget: 10000 });
+    let instance2 = new department({ departmentName: "ECE", size: 'Medium', budget: 50000 });
+    let instance3 = new department({ departmentName: "MECH", size: 'Small', budget: 5000 });
+
+    // Save the instances and log success or failure
+    await instance1.save();
+    console.log("First department saved");
+    await instance2.save();
+    console.log("Second department saved");
+    await instance3.save();
+    console.log("Third department saved");
+
+  } catch (err) {
+    console.error("Error during database seeding:", err);
+  }
 }
+
 let reseed = true;
 if (reseed) {recreateDB();}
 
