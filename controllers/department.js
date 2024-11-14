@@ -1,13 +1,16 @@
-const Department = require('../models/department');
+const department = require('../models/department');
 
+
+ 
 // List of all Departments
-exports.department_list = function(req, res) {
-    Department.find({}, function(err, departments) {
-        if (err) {
-            return res.status(500).send(err);
-        }
-        res.json(departments);
-    });
+exports.department_list = async function(req, res) {
+    try {
+        const departments = await department.find(); 
+        res.send(departments); // Sends the list as JSON
+    } catch (err) {
+        res.status(500);
+        res.send({ "error": err.message }); // Sends an error response if any issues occur
+    }
 };
 
 // For a specific Department
