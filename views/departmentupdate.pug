@@ -1,45 +1,51 @@
 extends layout
 
 block content
-  h1= title
-  - let departmentid = toShow._id
-  - let departmentName = toShow.departmentName
-  - let size = toShow.size
-  - let budget = toShow.budget
-  div.row(class='mb-2')
-    div.mr-1 ID is:
-    div #{departmentid}
+  h1.text-center.text-primary.font-italic.mt-4.mb-4= title
 
-    // Prepare the form for updating the heritage site
-  - let actionid = "/resource/department/" + departmentid;
-  form(id='departmentForm', action=actionid, method="PUT")
-    div.form-group
-      label.departmentAttr(for="departmentName")  Heritage Site Name
-      input#departmentName(type='text', name='departmentName', value=departmentName)
-    div.form-group
-      label.departmentAttr(for='size') Size
-      input#size(type='text', name='size', value=size)
-    div.form-group
-      label.departmentAttr(for='budget') Budget
-      input#budget(type='number', name='budget', value=budget)
-    input(type="submit")
+  if (toShow == null)
+    h2.text-center.text-muted.font-weight-light No details available for this department
+  else
+    - let departmentId = toShow._id
+    - let departmentName = toShow.departmentName
+    - let size = toShow.size
+    - let budget = toShow.budget
+    - let actionId = "/resource/department/" + departmentId
 
-    // Client-side script to intercept form submission
+    div.container.my-5
+      div.card.border-secondary.shadow-lg.rounded
+        div.card-header.bg-dark.text-warning.text-uppercase
+          h3.text-center.font-weight-bold Update Department Details
+        div.card-body.bg-light
+          form(id='departmentForm', action=actionId, method="PUT")
+            div.form-group.mb-4
+              label.text-muted.font-weight-bold(for="departmentName") Department Name:
+              input#departmentName.form-control.border-warning(type="text", name="departmentName", value=departmentName, placeholder="Enter department name")
+            div.form-group.mb-4
+              label.text-muted.font-weight-bold(for="size") Department Size:
+              input#size.form-control.border-warning(type="text", name="size", value=size, placeholder="Enter department size")
+            div.form-group.mb-4
+              label.text-muted.font-weight-bold(for="budget") Department Budget:
+              input#budget.form-control.border-warning(type="number", name="budget", value=budget, placeholder="Enter department budget")
+            div.text-center
+              button.btn.btn-outline-success.px-4.py-2.m-2.font-weight-bold(type="submit") Update
+              a.btn.btn-outline-danger.px-4.py-2.m-2.font-weight-bold(href='/department') Cancel
+        div.card-footer.text-center.bg-secondary.text-light
+          small Please double-check all the information before submitting.
+
   script.
     document.forms['departmentForm'].addEventListener('submit', (event) => {
       event.preventDefault();
-            // Show user that form is being submitted
       fetch(event.target.action, {
         method: 'PUT',
         body: new URLSearchParams(new FormData(event.target)) // Form data
       })
-      .then((resp) => {
-        return resp.json(); // Expecting a JSON response
-      })
+      .then((resp) => resp.json()) // Expect JSON response
       .then((body) => {
         alert("Update succeeded");
+        window.location.href = '/department'; // Redirect to department list
       })
       .catch((error) => {
-        alert("Update failed " + error);    
+        alert("Update failed: " + error);
       });
     });
