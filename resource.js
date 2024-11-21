@@ -18,4 +18,7 @@ router.put('/department/:id', department_controller.department_update_put);
 router.get('/department/:id', department_controller.department_detail);
 // GET request for list of all Costume items.
 router.get('/department', department_controller.department_list);
+
+
+
 module.exports = router;

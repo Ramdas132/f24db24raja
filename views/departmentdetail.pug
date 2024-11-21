@@ -1,0 +1,20 @@
+extends layout
+block content
+  h1= title
+  - let departmentid = toShow._id
+  - let departmentName = toShow.departmentName
+  - let departmentsize = toShow.size
+  - let departmentbudget = toShow.budget
+  div
+    div.row
+      div(class='departmentAttr mr-3') Department ID is:
+      div #{departmentid}
+    div.row
+      div(class='departmentAttr mr-3') Department Name is:
+      div #{departmentName}
+    div.row
+      div(class='departmentAttr mr-3') Department Size is:
+      div #{departmentsize}
+    div.row
+      div(class='departmentAttr mr-3') Department Budget is:
+      div #{departmentbudget}  

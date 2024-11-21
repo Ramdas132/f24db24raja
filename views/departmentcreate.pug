@@ -1,0 +1,29 @@
+extends layout
+block content
+  h1= title
+  form(id='departmentForm', action="/resource/department", method="POST")
+    div.form-group
+      label.departmentAttr(for='departmentName') DepartmentName
+      input#departmentName(type='text', name='departmentName')
+    div.form-group
+      label.departmentAttr(for='size') Department size
+      input#size(type='text', name='size')
+    div.form-group
+      label.departmentAttr(for='budget') Department budget
+      input#budget(type='number', name='budget')
+    input(type="submit" value="Create")
+  script.
+    document.forms['departmentForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+      })
+      .then((resp) => resp.json()) // or resp.text() or whatever the server sends
+      .then((body) => {
+        alert("Save succeded");
+      })
+      .catch((error) => {
+        alert("Save failed " + error );
+      });
+    });

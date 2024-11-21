@@ -1,0 +1,52 @@
+extends layout
+
+block content
+  h1= title
+  if (toShow == null)
+    h2 No department instance to delete
+  else
+    - let departmentId = toShow._id
+    - let departmentName = toShow.departmentName
+    - let departmentSize = toShow.size
+    - let departmentBudget = toShow.budget
+    - let actionId = "/resource/department/" + departmentId
+    script let actionId = "#{actionId}"
+    div
+      div.row
+        div(class='departmentAttr mr-3') Department ID is:
+        div #{departmentId}
+      div.row
+        div(class='departmentAttr mr-3') Department Name is:
+        div #{departmentName}
+      div.row
+        div(class='departmentAttr mr-3') Department Size is:
+        div #{departmentSize}
+      div.row
+        div(class='departmentAttr mr-3') Department Budget is:
+        div #{departmentBudget}
+      button(class="btn btn-danger m-2" onclick="deleteOnId()") Delete
+      button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+
+  script.
+    function cancel() {
+      // Go back to the home page for the department collection
+      window.location.href = 'resource/department';
+    }
+
+  script.
+    function deleteOnId() {
+      console.log("Starting delete");
+      // Perform delete request
+      fetch(actionId, {
+        method: 'DELETE' // No body required for DELETE
+      }).then((resp) => {
+        return resp.json(); // Handle server response
+      }).then((body) => {
+        alert("Delete succeeded");
+        window.location.href = 'resource/department';
+        // TODO handle body if necessary
+      }).catch((error) => {
+        // Handle errors
+        alert("Delete failed: " + error);
+      });
+    }

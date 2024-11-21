@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  h1= title
+  - let departmentid = toShow._id
+  - let departmentName = toShow.departmentName
+  - let size = toShow.size
+  - let budget = toShow.budget
+  div.row(class='mb-2')
+    div.mr-1 ID is:
+    div #{departmentid}
+
+    // Prepare the form for updating the heritage site
+  - let actionid = "/resource/department/" + departmentid;
+  form(id='departmentForm', action=actionid, method="PUT")
+    div.form-group
+      label.departmentAttr(for="departmentName")  Heritage Site Name
+      input#departmentName(type='text', name='departmentName', value=departmentName)
+    div.form-group
+      label.departmentAttr(for='size') Size
+      input#size(type='text', name='size', value=size)
+    div.form-group
+      label.departmentAttr(for='budget') Budget
+      input#budget(type='number', name='budget', value=budget)
+    input(type="submit")
+
+    // Client-side script to intercept form submission
+  script.
+    document.forms['departmentForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+            // Show user that form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)) // Form data
+      })
+      .then((resp) => {
+        return resp.json(); // Expecting a JSON response
+      })
+      .then((body) => {
+        alert("Update succeeded");
+      })
+      .catch((error) => {
+        alert("Update failed " + error);    
+      });
+    });
