@@ -4,8 +4,13 @@ block content
   h1= title
   ul
     each dept in results
-      li Department Name: #{dept.departmentName}
-      li Size: #{dept.size}
-      li Budget: #{dept.budget}
-
+      div(class="card my-3 p-3 border")
+        li Department Name: #{dept.departmentName}
+        li Size: #{dept.size}
+        li Budget: #{dept.budget}
+      button.btn( class="btn-primary ml-1", onclick= `navigateToupdate('${dept._id}')`) Update
+    script.
+      function navigateToupdate(departmentid){
+        window.location.href = `/update?id=${departmentid}`;
+      }
               

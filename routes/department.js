@@ -8,10 +8,10 @@ router.get('/detail', departmentcontroller.department_view_one_Page);
 
 
 
-//router.get('/', departmentcontroller.department_view_all_Page);
+router.get('/', departmentcontroller.department_view_all_Page);
  
 // Route for creating a chocolate
-router.post('/', departmentcontroller.department_create_post);
+//router.post('/', departmentcontroller.department_view_all_Page);
  
 router.delete('/chocolates/:id', departmentcontroller.department_delete);
  

@@ -34,7 +34,14 @@ exports.department_view_one_Page = async function (req, res) {
         res.status(500).send(`{'error': '${err}'}`);
     }
 };
-
+exports.department_view_all_Page = async function (req, res) {
+    try {
+        results = await Department.find();  // Fetch all heritage sites from the DB
+        res.render('department', { title: 'department', results: results });  // Render the view with results
+    } catch (err) {
+        res.status(500).send(`{"error": ${err}}`);  // Handle errors and send a response
+    }
+};
 
 
 // For a specific Department
