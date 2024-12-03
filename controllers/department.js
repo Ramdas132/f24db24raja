@@ -146,4 +146,32 @@ exports.department_update_put = async function (req, res) {
     }
 };
 
+exports.department_update_post = async function (req, res) {
+    try {
+        // Try updating the department
+        const updatedDepartment = await Department.findByIdAndUpdate(
+            req.body.id, 
+            req.body, 
+            { new: true, runValidators: true } // Ensure validation is applied during update
+        );
+
+        if (!updatedDepartment) {
+            return res.status(404).json({ error: 'Department not found' });
+        }
+
+        // Return a success message if the update is successful
+        res.status(200).json({ message: 'Update succeeded', updatedDepartment });
+    } catch (err) {
+        // Check if the error is a validation error
+        if (err.name === 'ValidationError') {
+            // Send back the validation error details to the client
+            return res.status(400).json({ error: `Validation failed: ${err.message}` });
+        }
+
+        // Handle other types of errors
+        res.status(500).json({ error: `Internal server error: ${err.message}` });
+    }
+};
+
+
 
