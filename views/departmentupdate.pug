@@ -42,7 +42,7 @@ block content
       })
       .then((resp) => resp.json()) // Expect JSON response
       .then((body) => {
-        alert("Update failed: update for ID 674e5d61a3f0f7a0ea8a44a9 failed: Department validation failed: budget : budget should be between 1000 to 1000000");
+        alert("Update succeeded");
         window.location.href = '/department'; // Redirect to department list
       })
       .catch((error) => {

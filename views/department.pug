@@ -2,6 +2,7 @@ extends layout
 
 block content
   h1= title
+  a.btn.btn-success.mb-3(href='/department/create') Create New Department
   ul
     each dept in results
       div(class="card my-3 p-3 border")
@@ -9,8 +10,17 @@ block content
         li Size: #{dept.size}
         li Budget: #{dept.budget}
       button.btn( class="btn-primary ml-1", onclick= `navigateToupdate('${dept._id}')`) Update
+      button.btn.btn-info.mt-2(onclick=`navigateToDetails('${dept._id}')`) View Details
+      button.btn.btn-danger.mt-2(onclick=`navigateToDelete('${dept._id}')`) Delete
     script.
       function navigateToupdate(departmentid){
         window.location.href = `/department/update?id=${departmentid}`;
+      }
+      function navigateToDetails(departmentid) {
+        window.location.href = `/department/detail?id=${departmentid}`;
+      }
+
+      function navigateToDelete(departmentid) {
+        window.location.href = `/department/delete?id=${departmentid}`;
       }
               
